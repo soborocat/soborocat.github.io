@@ -4,82 +4,6 @@
 	import Mail from '@tabler/icons-svelte/icons/mail';
 	import BrandInstagram from '@tabler/icons-svelte/icons/brand-instagram';
 
-	let sectionsVisible = [false, false, false];
-	let sectionElements: HTMLElement[] = [];
-	let observers: IntersectionObserver[] = [];
-
-	function createObserver() {
-		// 기존 observers 정리
-		observers.forEach((observer) => observer.disconnect());
-		observers = [];
-
-		// 모바일과 데스크톱에 따른 다른 설정
-		const isMobile = window.innerWidth < 768;
-
-		const observerOptions = {
-			root: null,
-			rootMargin: isMobile ? '-10px 0px -10px 0px' : '-20px 0px -20px 0px',
-			threshold: [0.1, 0.3, 0.5] // 더 세밀한 threshold 설정
-		};
-
-		sectionElements.forEach((element, index) => {
-			if (!element) return;
-
-			const observer = new IntersectionObserver((entries) => {
-				entries.forEach((entry) => {
-					const isVisible =
-						entry.isIntersecting && entry.intersectionRatio > (isMobile ? 0.1 : 0.2);
-
-					if (isVisible && !sectionsVisible[index]) {
-						sectionsVisible[index] = true;
-					}
-				});
-			}, observerOptions);
-
-			observer.observe(element);
-			observers.push(observer);
-		});
-	}
-
-	function handleResize() {
-		// 뷰포트 높이 재설정
-		const vh = window.innerHeight * 0.01;
-		document.documentElement.style.setProperty('--vh', `${vh}px`);
-
-		// Observer 재생성 (모바일/데스크톱 전환 시)
-		createObserver();
-	}
-
-	onMount(() => {
-		// 초기 뷰포트 높이 설정
-		handleResize();
-
-		// 약간의 지연 후 observer 생성 (DOM 완전 로드 대기)
-		const timeoutId = setTimeout(() => {
-			createObserver();
-		}, 150);
-
-		// 리사이즈 이벤트 등록 (디바운스 적용)
-		let resizeTimeout: number;
-		const debouncedResize = () => {
-			clearTimeout(resizeTimeout);
-			resizeTimeout = setTimeout(handleResize, 16);
-		};
-
-		window.addEventListener('resize', debouncedResize);
-		window.addEventListener('orientationchange', () => {
-			setTimeout(handleResize, 300);
-		});
-
-		return () => {
-			clearTimeout(timeoutId);
-			clearTimeout(resizeTimeout);
-			window.removeEventListener('resize', debouncedResize);
-			window.removeEventListener('orientationchange', handleResize);
-			observers.forEach((observer) => observer.disconnect());
-		};
-	});
-
 	const projects = [
 		{
 			title: 'Serverside RAW Image Editor (untitled)',
@@ -131,6 +55,28 @@
 			status: 'FINISHED'
 		}
 	];
+
+	onMount(() => {
+		// 초기 뷰포트 높이 설정
+		const vh = window.innerHeight * 0.01;
+		document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+		// 리사이즈 이벤트 등록
+		const handleResize = () => {
+			const vh = window.innerHeight * 0.01;
+			document.documentElement.style.setProperty('--vh', `${vh}px`);
+		};
+
+		window.addEventListener('resize', handleResize);
+		window.addEventListener('orientationchange', () => {
+			setTimeout(handleResize, 300);
+		});
+
+		return () => {
+			window.removeEventListener('resize', handleResize);
+			window.removeEventListener('orientationchange', handleResize);
+		};
+	});
 </script>
 
 <svelte:head>
@@ -200,14 +146,7 @@
 
 <!-- 프로젝트 섹션 -->
 <div class="bg-gray-100">
-	<section
-		bind:this={sectionElements[0]}
-		class="min-h-screen-mobile px-4 py-16 transition-all duration-1000 ease-out md:px-8 md:py-24"
-		class:opacity-0={!sectionsVisible[0]}
-		class:translate-y-8={!sectionsVisible[0]}
-		class:opacity-100={sectionsVisible[0]}
-		class:translate-y-0={sectionsVisible[0]}
-	>
+	<section class="min-h-screen-mobile px-4 py-16 md:px-8 md:py-24">
 		<!-- 섹션 헤더 -->
 		<div class="mb-16 md:mb-24">
 			<div class="mb-6 flex flex-col gap-4 md:mb-8 md:flex-row md:items-center md:justify-between">
@@ -292,14 +231,7 @@
 	</section>
 
 	<!-- 연락처 섹션 -->
-	<section
-		bind:this={sectionElements[1]}
-		class="px-4 py-16 transition-all duration-1000 ease-out md:px-8 md:py-24"
-		class:opacity-0={!sectionsVisible[1]}
-		class:translate-y-8={!sectionsVisible[1]}
-		class:opacity-100={sectionsVisible[1]}
-		class:translate-y-0={sectionsVisible[1]}
-	>
+	<section class="px-4 py-16 md:px-8 md:py-24">
 		<div class="mx-auto max-w-6xl">
 			<div class="grid gap-12 md:grid-cols-2 md:gap-16">
 				<!-- 연락처 정보 -->
@@ -427,18 +359,6 @@
 		animation: fade-in 1.2s ease-out;
 	}
 
-	/* 모바일 최적화 */
-	@media (max-width: 768px) {
-		.min-h-screen-mobile {
-			min-height: calc(var(--vh, 1vh) * 100);
-		}
-
-		/* 모바일에서 애니메이션 거리 조정 */
-		.translate-y-8 {
-			transform: translateY(2rem);
-		}
-	}
-
 	/* 터치 디바이스 최적화 */
 	@media (hover: none) and (pointer: coarse) {
 		.group:hover .group-hover\:opacity-60 {
@@ -448,9 +368,5 @@
 		.group:hover .group-hover\:bg-gray-50 {
 			background-color: white;
 		}
-	}
-	.transition-all {
-		will-change: transform, opacity;
-		transform: translateZ(0); /* 하드웨어 가속 강제 */
 	}
 </style>

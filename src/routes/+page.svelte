@@ -63,7 +63,7 @@
 		let resizeTimeout: number;
 		const debouncedResize = () => {
 			clearTimeout(resizeTimeout);
-			resizeTimeout = setTimeout(handleResize, 250);
+			resizeTimeout = setTimeout(handleResize, 16);
 		};
 
 		window.addEventListener('resize', debouncedResize);

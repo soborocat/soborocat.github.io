@@ -18,8 +18,8 @@
 
 		const observerOptions = {
 			root: null,
-			rootMargin: isMobile ? '0px 0px -20% 0px' : '0px 0px -30% 0px',
-			threshold: isMobile ? [0, 0.1, 0.25] : [0, 0.2, 0.4]
+			rootMargin: isMobile ? '-10px 0px -10px 0px' : '-20px 0px -20px 0px',
+			threshold: [0.1, 0.3, 0.5] // 더 세밀한 threshold 설정
 		};
 
 		sectionElements.forEach((element, index) => {
@@ -448,5 +448,9 @@
 		.group:hover .group-hover\:bg-gray-50 {
 			background-color: white;
 		}
+	}
+	.transition-all {
+		will-change: transform, opacity;
+		transform: translateZ(0); /* 하드웨어 가속 강제 */
 	}
 </style>

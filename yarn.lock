@@ -1676,6 +1676,11 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
+svader@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/svader/-/svader-0.5.4.tgz#ee914e5ad3dca876247a1a699836c7ce4ecfa499"
+  integrity sha512-GPTMNjK+S9+l5f5eDGC1L+6QMUE0T8FkM131XxxITLyueT7FU2NkjIQqtLWjygWJ8SQU2ODIymdXqpYLuK3Cyw==
+
 svelte-check@^4.0.0:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/svelte-check/-/svelte-check-4.2.1.tgz#d332582f24b40967f3c56b8e2d74c306044cecdf"

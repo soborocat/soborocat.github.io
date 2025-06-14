@@ -71,7 +71,6 @@
 			category: 'opensource',
 			description: '파이썬으로 만든 급식 및 학교 정보를 가져오는 모듈입니다.',
 			tech: ['PYTHON', 'CRAWLING'],
-			team: '개인 프로젝트',
 			status: '보존',
 			role: '개발자',
 			link: 'https://github.com/soborocat/school-py'

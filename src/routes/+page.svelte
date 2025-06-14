@@ -147,7 +147,7 @@
 			},
 			'Yak Project': {
 				title: 'Yak Project',
-				description: '약학정보원 웹사이트를 크롤링하여 알약 정보를 식별하는 프로젝트입니다.',
+				description: '웹사이트를 크롤링하여 알약 정보를 식별하는 프로젝트입니다.',
 				role: '풀스택 개발자',
 				category: '웹 애플리케이션',
 				team: '교육 관련 팀 프로젝트'
@@ -255,7 +255,7 @@
 			},
 			'Yak Project': {
 				title: 'Yak Project',
-				description: '薬学情報院ウェブサイトをクローリングして錠剤情報を識別するプロジェクトです。',
+				description: 'ウェブサイトをクローリングして錠剤情報を識別するプロジェクトです。',
 				role: 'フルスタック開発者',
 				category: 'ウェブアプリケーション',
 				team: '教育関連チームプロジェクト'

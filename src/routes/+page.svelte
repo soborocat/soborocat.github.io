@@ -1,21 +1,281 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
 	import BrandGithub from '@tabler/icons-svelte/icons/brand-github';
 	import Mail from '@tabler/icons-svelte/icons/mail';
 	import BrandInstagram from '@tabler/icons-svelte/icons/brand-instagram';
 	import { IconLink } from '@tabler/icons-svelte';
-	const projects = [
+
+	type Locale = 'ko' | 'en' | 'ja';
+	type ProjectStatus = 'current' | 'preserved' | 'paused';
+
+	interface Translation {
+		title: string;
+		subtitle: string;
+		projects: string;
+		contact: string;
+		technologies: string;
+		frontend: string;
+		backend: string;
+		copyright: string;
+		scroll: string;
+		current: string;
+		preserved: string;
+		paused: string;
+		solo: string;
+	}
+
+	interface ProjectTranslation {
+		title: string;
+		description: string;
+		role: string;
+		category: string;
+		team?: string;
+	}
+
+	interface Project {
+		title: string;
+		year: string;
+		category: string;
+		team?: string;
+		role: string;
+		tech: string[];
+		link?: string;
+		status: ProjectStatus;
+		image?: string;
+	}
+
+	const locale: Writable<Locale> = writable('ko');
+
+	const translations: Record<Locale, Translation> = {
+		ko: {
+			title: 'JinPyo Joo',
+			subtitle:
+				'고양이와 심플한 디자인을 사랑하는 개발자입니다. 최적화와 디자인에 대해 공부하고 있습니다.',
+			projects: 'PROJECTS',
+			contact: 'CONTACT',
+			technologies: 'TECHNOLOGIES',
+			frontend: 'FRONTEND',
+			backend: 'BACKEND & TOOLS',
+			copyright: 'Copyright 2025. JinpyoJoo. Designed by JinPyoJoo in Daejeon, South Korea.',
+			scroll: 'SCROLL',
+			current: '현재',
+			preserved: '보존',
+			paused: '보류',
+			solo: 'Solo Project'
+		},
+		en: {
+			title: 'JinPyo Joo',
+			subtitle:
+				'A developer who loves cats and simple design. Currently studying optimization and design.',
+			projects: 'PROJECTS',
+			contact: 'CONTACT',
+			technologies: 'TECHNOLOGIES',
+			frontend: 'FRONTEND',
+			backend: 'BACKEND & TOOLS',
+			copyright: 'Copyright 2025. JinpyoJoo. Designed by JinPyoJoo in Daejeon, South Korea.',
+			scroll: 'SCROLL',
+			current: 'Current',
+			preserved: 'Preserved',
+			paused: 'Paused',
+			solo: 'Solo Project'
+		},
+		ja: {
+			title: 'JinPyo Joo',
+			subtitle:
+				'猫とシンプルなデザインを愛する開発者です。最適化とデザインについて勉強しています。',
+			projects: 'PROJECTS',
+			contact: 'CONTACT',
+			technologies: 'TECHNOLOGIES',
+			frontend: 'FRONTEND',
+			backend: 'BACKEND & TOOLS',
+			copyright: 'Copyright 2025. JinpyoJoo. Designed by JinPyoJoo in Daejeon, South Korea.',
+			scroll: 'SCROLL',
+			current: '現在',
+			preserved: '保存',
+			paused: '一時停止',
+			solo: 'ソロプロジェクト'
+		}
+	};
+
+	const projectTranslations: Record<Locale, Record<string, ProjectTranslation>> = {
+		ko: {
+			'Cat.Fluffy.Company': {
+				title: 'Cat.Fluffy.Company',
+				description:
+					'고양이가 되었다고 생각하면서 성격을 검사할 수 있는 간단한 성격 검사 사이트입니다.',
+				role: '풀스택 개발자 / 디자이너',
+				category: '웹 애플리케이션',
+				team: 'FluffyCompany'
+			},
+			'FURPIC (퍼픽)': {
+				title: 'FURPIC (퍼픽)',
+				description:
+					'Svelte 프레임워크와 NestJS 기반의 백엔드로 구축된 서브컬쳐 사진 공유 플랫폼으로 사진 촬영자와 피사체 간 정보를 연결해 공유할 수 있는 플랫폼입니다. 현재 900개 이상의 캐릭터 데이터와 하루 접속자 1K 이상의 유저풀을 보유하고 있습니다.',
+				role: '프론트엔드 개발자 / 디자이너 / 대외 담당 및 마케팅',
+				category: '웹 애플리케이션',
+				team: 'FURPIC TEAM'
+			},
+			마쵸봇: {
+				title: '마쵸봇',
+				description:
+					'1분마다 주가가 변동하는 가상 주식게임을 즐길 수 있는 디스코드 기반 게임 챗봇입니다. 수천명 이상의 유저풀과 함께 경쟁하며 게임을 플레이할 수 있습니다.',
+				role: 'PD / 프로젝트 리더 / 백엔드 개발자',
+				category: '챗봇',
+				team: '팀 큐빗 (FluffyCompany)'
+			},
+			'캐릭터 사진 자동 분류 시스템': {
+				title: '캐릭터 사진 자동 분류 시스템',
+				description:
+					'Few Shot Learning 기술을 사용하여 적은 이미지 데이터셋으로 특수한 사진 피사체를 보다 정확하게 구분하여 피사체의 정보를 확인할 수 있는 기술입니다.',
+				role: '풀스택 개발자 / 데이터 엔지니어',
+				category: '머신러닝',
+				team: 'FURPIC TEAM'
+			},
+			'중앙서버 기반 RAW 이미지 편집 소프트웨어': {
+				title: '중앙서버 기반 RAW 이미지 편집 소프트웨어',
+				description:
+					'전문 사진사와 일반인 모두 사용 가능한 RAW 이미지 편집기로 서버에서 연산을 처리하여 어디서든지 빠른 속도와 가벼움을 보장하는 프로토콜 기반 보정 소프트웨어입니다.',
+				role: '프로젝트 매니저 / 풀스택 개발자',
+				category: '데스크톱 소프트웨어'
+			},
+			'school-py': {
+				title: 'school-py',
+				description: '파이썬으로 만든 급식 및 학교 정보를 가져오는 모듈입니다.',
+				role: '개발자',
+				category: '오픈소스'
+			},
+			'Yak Project': {
+				title: 'Yak Project',
+				description: '약학정보원 웹사이트를 크롤링하여 알약 정보를 식별하는 프로젝트입니다.',
+				role: '풀스택 개발자',
+				category: '웹 애플리케이션',
+				team: '교육 관련 팀 프로젝트'
+			}
+		},
+		en: {
+			'Cat.Fluffy.Company': {
+				title: 'Cat.Fluffy.Company',
+				description:
+					'A simple personality test site where you can take a personality test while imagining yourself as a cat.',
+				role: 'Fullstack Developer / Designer',
+				category: 'Web Application',
+				team: 'FluffyCompany'
+			},
+			'FURPIC (퍼픽)': {
+				title: 'FURPIC',
+				description:
+					'A subculture photo sharing platform built with Svelte framework and NestJS backend that connects information between photographers and subjects. Currently holds over 900 character data and a user pool of over 1K daily visitors.',
+				role: 'Frontend Developer / Designer / External Relations & Marketing',
+				category: 'Web Application',
+				team: 'FURPIC TEAM'
+			},
+			마쵸봇: {
+				title: 'MachoBot',
+				description:
+					'A Discord-based game chatbot where you can enjoy a virtual stock game with stock prices changing every minute. You can compete and play games with thousands of users.',
+				role: 'PD / Project Leader / Backend Developer',
+				category: 'Chatbot',
+				team: 'Team Qubit (FluffyCompany)'
+			},
+			'캐릭터 사진 자동 분류 시스템': {
+				title: 'Character Photo Auto-Classification System',
+				description:
+					'A technology that uses Few Shot Learning to more accurately distinguish special photo subjects with small image datasets and identify subject information.',
+				role: 'Fullstack Developer / Data Engineer',
+				category: 'Machine Learning',
+				team: 'FURPIC TEAM'
+			},
+			'중앙서버 기반 RAW 이미지 편집 소프트웨어': {
+				title: 'Server-based RAW Image Editing Software',
+				description:
+					'A RAW image editor for both professional photographers and general users, a protocol-based editing software that processes calculations on the server to ensure fast speed and lightness anywhere.',
+				role: 'Project Manager / Fullstack Developer',
+				category: 'Desktop Software'
+			},
+			'school-py': {
+				title: 'school-py',
+				description: 'A module made with Python to get meal and school information.',
+				role: 'Developer',
+				category: 'Open Source'
+			},
+			'Yak Project': {
+				title: 'Yak Project',
+				description:
+					'A project that crawls the pharmaceutical information website to identify pill information.',
+				role: 'Fullstack Developer',
+				category: 'Web Application',
+				team: 'Educational Team Project'
+			}
+		},
+		ja: {
+			'Cat.Fluffy.Company': {
+				title: 'Cat.Fluffy.Company',
+				description: '猫になったと思いながら性格検査ができるシンプルな性格検査サイトです。',
+				role: 'フルスタック開発者 / デザイナー',
+				category: 'ウェブアプリケーション',
+				team: 'FluffyCompany'
+			},
+			'FURPIC (퍼픽)': {
+				title: 'FURPIC',
+				description:
+					'SvelteフレームワークとNestJSベースのバックエンドで構築されたサブカルチャー写真共有プラットフォームで、写真撮影者と被写体間の情報を接続して共有できるプラットフォームです。現在900以上のキャラクターデータと1日のアクセス者1K以上のユーザープールを保有しています。',
+				role: 'フロントエンド開発者 / デザイナー / 対外担当およびマーケティング',
+				category: 'ウェブアプリケーション',
+				team: 'FURPIC TEAM'
+			},
+			마쵸봇: {
+				title: 'マッチョボット',
+				description:
+					'1分ごとに株価が変動する仮想株式ゲームを楽しめるDiscordベースのゲームチャットボットです。数千人以上のユーザープールと一緒に競争しながらゲームをプレイできます。',
+				role: 'PD / プロジェクトリーダー / バックエンド開発者',
+				category: 'チャットボット',
+				team: 'チーム キュービット (FluffyCompany)'
+			},
+			'캐릭터 사진 자동 분류 시스템': {
+				title: 'キャラクター写真自動分類システム',
+				description:
+					'Few Shot Learning技術を使用して少ない画像データセットで特殊な写真被写体をより正確に区別して被写体の情報を確認できる技術です。',
+				role: 'フルスタック開発者 / データエンジニア',
+				category: '機械学習',
+				team: 'FURPIC TEAM'
+			},
+			'중앙서버 기반 RAW 이미지 편집 소프트웨어': {
+				title: '中央サーバーベースRAW画像編集ソフトウェア',
+				description:
+					'専門写真家と一般人の両方が使用可能なRAW画像エディターで、サーバーで演算を処理してどこでも高速で軽量を保証するプロトコルベースの補正ソフトウェアです。',
+				role: 'プロジェクトマネージャー / フルスタック開発者',
+				category: 'デスクトップソフトウェア'
+			},
+			'school-py': {
+				title: 'school-py',
+				description: 'Pythonで作った給食および学校情報を取得するモジュールです。',
+				role: '開発者',
+				category: 'オープンソース'
+			},
+			'Yak Project': {
+				title: 'Yak Project',
+				description: '薬学情報院ウェブサイトをクローリングして錠剤情報を識別するプロジェクトです。',
+				role: 'フルスタック開発者',
+				category: 'ウェブアプリケーション',
+				team: '教育関連チームプロジェクト'
+			}
+		}
+	};
+
+	$: t = translations[$locale];
+	$: pt = projectTranslations[$locale];
+
+	const projects: Project[] = [
 		{
 			title: 'Cat.Fluffy.Company',
 			year: '2025',
 			category: '웹 애플리케이션',
 			team: 'FluffyCompany',
 			role: '풀스택 개발자 / 디자이너',
-			description:
-				'고양이가 되었다고 생각하면서 성격을 검사할 수 있는 간단한 성격 검사 사이트입니다.',
 			tech: ['SVELTE', 'TAILWINDCSS', 'CI/CD'],
 			link: 'https://cat.fluffy.company',
-			status: '현재',
+			status: 'current',
 			image: 'product_catff.png'
 		},
 		{
@@ -25,10 +285,8 @@
 			year: '2024',
 			category: '웹 애플리케이션',
 			role: '프론트엔드 개발자 / 디자이너 / 대외 담당 및 마케팅',
-			description:
-				'Svelte 프레임워크와 NestJS 기반의 백엔드로 구축된 서브컬쳐 사진 공유 플랫폼으로 사진 촬영자와 피사체 간 정보를 연결해 공유할 수 있는 플랫폼입니다. 현재 900개 이상의 캐릭터 데이터와 하루 접속자 1K 이상의 유저풀을 보유하고 있습니다.',
 			tech: ['SVELTE', 'TYPESCRIPT', 'POSTGRESQL', 'TAILWINDCSS', 'FIGMA'],
-			status: '현재',
+			status: 'current',
 			image: 'product_furpic.png'
 		},
 		{
@@ -38,10 +296,8 @@
 			team: '팀 큐빗 (FluffyCompany)',
 			category: '챗봇',
 			role: 'PD / 프로젝트 리더 / 백엔드 개발자',
-			description:
-				'1분마다 주가가 변동하는 가상 주식게임을 즐길 수 있는 디스코드 기반 게임 챗봇입니다. 수천명 이상의 유저풀과 함께 경쟁하며 게임을 플레이할 수 있습니다.',
 			tech: ['TYPESCRIPT', 'DISCORDJS', 'CANVAS', 'CI/CD'],
-			status: '현재',
+			status: 'current',
 			image: 'product_chatbot.png'
 		},
 		{
@@ -50,28 +306,23 @@
 			team: 'FURPIC TEAM',
 			category: '머신러닝',
 			role: '풀스택 개발자 / 데이터 엔지니어',
-			description:
-				'Few Shot Learning 기술을 사용하여 적은 이미지 데이터셋으로 특수한 사진 피사체를 보다 정확하게 구분하여 피사체의 정보를 확인할 수 있는 기술입니다.',
 			tech: ['PYTHON', 'PILLOW', 'SCIKIT-LEARN', 'OPTIMIZATION'],
-			status: '현재'
+			status: 'current'
 		},
 		{
 			title: '중앙서버 기반 RAW 이미지 편집 소프트웨어',
 			year: '2025',
 			category: '데스크톱 소프트웨어',
 			role: '프로젝트 매니저 / 풀스택 개발자',
-			description:
-				'전문 사진사와 일반인 모두 사용 가능한 RAW 이미지 편집기로 서버에서 연산을 처리하여 어디서든지 빠른 속도와 가벼움을 보장하는 프로토콜 기반 보정 소프트웨어입니다.',
 			tech: ['PYTHON', 'PYQT', 'IMAGE PROCESSING', 'GPU ACCELERATION', 'RESTFUL API'],
-			status: '보류'
+			status: 'paused'
 		},
 		{
 			title: 'school-py',
 			year: '2021',
 			category: 'opensource',
-			description: '파이썬으로 만든 급식 및 학교 정보를 가져오는 모듈입니다.',
 			tech: ['PYTHON', 'CRAWLING'],
-			status: '보존',
+			status: 'preserved',
 			role: '개발자',
 			link: 'https://github.com/soborocat/school-py'
 		},
@@ -82,45 +333,46 @@
 			link: 'https://github.com/soborocat/Yakproject',
 			category: '웹 애플리케이션',
 			role: 'Fullstack Developer',
-			description: '약학정보원 웹사이트를 크롤링하여 알약 정보를 식별하는 프로젝트입니다.',
 			tech: ['PHP', 'CRAWLING'],
-			status: '보존'
+			status: 'preserved'
 		}
 	];
 
 	let titleElement: HTMLElement;
-	let isVisible = false;
-	let mouseX = 0;
-	let mouseY = 0;
+	let isVisible: boolean = false;
+	let mouseX: number = 0;
+	let mouseY: number = 0;
 
-	function handleMouseMove(event: MouseEvent) {
+	function handleMouseMove(event: MouseEvent): void {
 		mouseX = event.clientX;
 		mouseY = event.clientY;
 	}
 
-	onMount(() => {
-		// 초기 뷰포트 높이 설정
-		const vh = window.innerHeight * 0.01;
+	function setLocale(newLocale: Locale): void {
+		locale.set(newLocale);
+	}
+
+	onMount((): (() => void) => {
+		const vh: number = window.innerHeight * 0.01;
 		document.documentElement.style.setProperty('--vh', `${vh}px`);
 
-		// 리사이즈 이벤트 등록
-		const handleResize = () => {
-			const vh = window.innerHeight * 0.01;
+		const handleResize = (): void => {
+			const vh: number = window.innerHeight * 0.01;
 			document.documentElement.style.setProperty('--vh', `${vh}px`);
 		};
 
-		// 제목 애니메이션 트리거
-		setTimeout(() => {
+		const timeoutId: number = setTimeout((): void => {
 			isVisible = true;
 		}, 800);
 
 		window.addEventListener('resize', handleResize);
-		window.addEventListener('orientationchange', () => {
+		window.addEventListener('orientationchange', (): void => {
 			setTimeout(handleResize, 300);
 		});
 		window.addEventListener('mousemove', handleMouseMove);
 
-		return () => {
+		return (): void => {
+			clearTimeout(timeoutId);
 			window.removeEventListener('resize', handleResize);
 			window.removeEventListener('orientationchange', handleResize);
 			window.removeEventListener('mousemove', handleMouseMove);
@@ -140,7 +392,6 @@
 <div
 	class="min-h-screen-mobile relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-200"
 >
-	<!-- 떠다니는 고양이 발자국들 -->
 	<div class="floating-paws">
 		<div class="paw paw-1">🐾</div>
 		<div class="paw paw-2">🐾</div>
@@ -153,9 +404,34 @@
 		<div class="h-0.5 w-full bg-black"></div>
 	</div>
 
+	<div class="absolute top-4 right-4 z-10 md:top-8 md:right-8">
+		<div class="language-switcher flex gap-2">
+			<button
+				class="lang-btn text-xs font-medium tracking-wide text-black transition-all duration-300 hover:scale-110"
+				class:active={$locale === 'ko'}
+				on:click={() => setLocale('ko')}
+			>
+				KO
+			</button>
+			<button
+				class="lang-btn text-xs font-medium tracking-wide text-black transition-all duration-300 hover:scale-110"
+				class:active={$locale === 'en'}
+				on:click={() => setLocale('en')}
+			>
+				EN
+			</button>
+			<button
+				class="lang-btn text-xs font-medium tracking-wide text-black transition-all duration-300 hover:scale-110"
+				class:active={$locale === 'ja'}
+				on:click={() => setLocale('ja')}
+			>
+				JA
+			</button>
+		</div>
+	</div>
+
 	<div class="min-h-screen-mobile flex items-center justify-center px-4">
 		<div class="animate-fade-in relative text-center">
-			<!-- JinPyo Joo 제목 with 고양이 같은 애니메이션 -->
 			<h1
 				bind:this={titleElement}
 				class="cat-title mb-6 text-4xl font-black tracking-tight text-black md:mb-8 md:text-6xl lg:text-8xl"
@@ -172,10 +448,9 @@
 			</h1>
 
 			<p class="mb-8 px-4 text-lg font-medium tracking-wide text-black md:mb-12 md:text-xl">
-				고양이와 심플한 디자인을 사랑하는 개발자입니다. 최적화와 디자인에 대해 공부하고 있습니다.
+				{t.subtitle}
 			</p>
 
-			<!-- 소셜 링크 with 고양이 호버 효과 -->
 			<div class="flex justify-center gap-8 md:gap-12">
 				<a
 					href="https://github.com/soborocat"
@@ -205,42 +480,36 @@
 		</div>
 	</div>
 
-	<!-- 하단 라인 -->
 	<div class="absolute right-4 bottom-4 left-4 md:right-8 md:bottom-8 md:left-8">
 		<div class="h-0.5 w-full bg-black"></div>
 	</div>
 
-	<!-- 스크롤 인디케이터 with 고양이 꼬리 -->
 	<div class="absolute bottom-12 left-1/2 -translate-x-1/2 transform md:bottom-16">
 		<div class="cat-tail-indicator">
 			<div class="cat-tail"></div>
-			<div class="text-xs font-medium tracking-widest text-black md:text-sm">SCROLL</div>
+			<div class="text-xs font-medium tracking-widest text-black md:text-sm">{t.scroll}</div>
 		</div>
 	</div>
 </div>
 
-<!-- 프로젝트 섹션 -->
 <div class="bg-gray-100">
 	<section class="min-h-screen-mobile px-4 py-16 md:px-8 md:py-24">
-		<!-- 섹션 헤더 -->
 		<div class="mb-16 md:mb-24">
 			<div class="mb-6 flex flex-col gap-4 md:mb-8 md:flex-row md:items-center md:justify-between">
 				<h2
 					class="project-title text-3xl font-black tracking-tight text-black md:text-4xl lg:text-6xl"
 				>
-					PROJECTS
+					{t.projects}
 				</h2>
 				<div class="text-sm font-medium text-black md:text-base">2018 — 2025</div>
 			</div>
 			<div class="h-0.5 w-full bg-black"></div>
 		</div>
 
-		<!-- 프로젝트 리스트 -->
 		<div class="mx-auto max-w-6xl space-y-12 md:space-y-16">
 			{#each projects as project, index}
 				<div class="group project-item" style="--delay: {index * 0.1}s">
 					<div class="grid items-start gap-6 md:grid-cols-12 md:gap-8">
-						<!-- 프로젝트 번호 with 고양이 발자국 -->
 						<div class="md:col-span-1">
 							<div class="project-number text-xl font-black text-black md:text-2xl">
 								{String(index + 1).padStart(2, '0')}
@@ -248,20 +517,19 @@
 							</div>
 						</div>
 
-						<!-- 프로젝트 정보 -->
 						<div class="md:col-span-6">
 							<div class="mb-2 flex flex-wrap gap-2 md:gap-4">
 								<span class="project-tag text-xs font-black tracking-wide text-black md:text-sm"
-									>{project.team || 'Solo Project'}</span
+									>{pt[project.title]?.team || project.team || t.solo}</span
 								>
 								<span class="project-tag text-xs font-medium tracking-wide text-black md:text-sm"
-									>{project.category}</span
+									>{pt[project.title]?.category || project.category}</span
 								>
 								<span class="project-tag text-xs font-medium tracking-wide text-black md:text-sm"
 									>{project.year}</span
 								>
 								<span class="project-tag text-xs font-medium tracking-wide text-black md:text-sm"
-									>— {project.status}</span
+									>— {t[project.status]}</span
 								>
 							</div>
 							<h3
@@ -274,24 +542,23 @@
 										rel="noopener noreferrer"
 										class="border-b-1 transition hover:border-b-2"
 									>
-										{project.title}
+										{pt[project.title]?.title || project.title}
 									</a>
 									<IconLink
 										size={16}
 										class="ml-1 inline-block transition-transform duration-300 group-hover:scale-125"
 									/>
 								{:else}
-									{project.title}
+									{pt[project.title]?.title || project.title}
 								{/if}
 							</h3>
-							<!-- 직무 정보 -->
 							<div
 								class="role-badge mb-4 inline-block rounded-full bg-gray-200 px-3 py-1 text-xs font-medium text-gray-700 md:text-sm"
 							>
-								{project.role}
+								{pt[project.title]?.role || project.role}
 							</div>
 							<p class="mb-6 max-w-lg text-sm leading-relaxed text-black md:text-base">
-								{project.description}
+								{pt[project.title]?.description || ''}
 							</p>
 							<div class="flex flex-wrap gap-3 md:gap-4">
 								{#each project.tech as tech}
@@ -304,7 +571,6 @@
 							</div>
 						</div>
 
-						<!-- 프로젝트 이미지 영역 with 고양이 상자 -->
 						<div class="md:col-span-5">
 							<div
 								class="project-box aspect-[4/3] border border-black bg-white transition-all duration-300 group-hover:bg-gray-50 group-hover:shadow-lg"
@@ -312,7 +578,7 @@
 								{#if project.image}
 									<img
 										src={project.image}
-										alt={project.title}
+										alt={pt[project.title]?.title || project.title}
 										class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 										loading="lazy"
 									/>
@@ -346,16 +612,14 @@
 		</div>
 	</section>
 
-	<!-- 연락처 섹션 -->
 	<section class="px-4 py-16 md:px-8 md:py-24">
 		<div class="mx-auto max-w-6xl">
 			<div class="grid gap-12 md:grid-cols-2 md:gap-16">
-				<!-- 연락처 정보 -->
 				<div>
 					<h2
 						class="contact-title mb-6 text-3xl font-black tracking-tight text-black md:mb-8 md:text-4xl lg:text-6xl"
 					>
-						CONTACT
+						{t.contact}
 					</h2>
 					<div class="space-y-4 md:space-y-6">
 						<div class="contact-item">
@@ -394,17 +658,16 @@
 					</div>
 				</div>
 
-				<!-- 기술 스택 -->
 				<div>
 					<h3
 						class="tech-title mb-6 text-xl font-black tracking-tight text-black md:mb-8 md:text-2xl"
 					>
-						TECHNOLOGIES
+						{t.technologies}
 					</h3>
 					<div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
 						<div class="tech-section">
 							<div class="mb-3 text-xs font-medium tracking-wide text-black md:mb-4 md:text-sm">
-								FRONTEND
+								{t.frontend}
 							</div>
 							<div class="space-y-1 md:space-y-2">
 								<div class="tech-item text-sm text-black md:text-base">SVELTE</div>
@@ -415,7 +678,7 @@
 						</div>
 						<div class="tech-section">
 							<div class="mb-3 text-xs font-medium tracking-wide text-black md:mb-4 md:text-sm">
-								BACKEND & TOOLS
+								{t.backend}
 							</div>
 							<div class="space-y-1 md:space-y-2">
 								<div class="tech-item text-sm text-black md:text-base">POSTGRESQL</div>
@@ -433,11 +696,10 @@
 			</div>
 		</div>
 
-		<!-- 하단 라인 -->
 		<div class="mt-16 h-0.5 w-full bg-black md:mt-24"></div>
 		<div class="mt-6 text-center md:mt-8">
 			<div class="footer-text text-xs font-medium text-black md:text-sm">
-				Copyright 2025. JinpyoJoo. Designed by JinPyoJoo in Daejeon, South Korea.
+				{t.copyright}
 			</div>
 		</div>
 	</section>
@@ -456,13 +718,11 @@
 		box-sizing: border-box;
 	}
 
-	/* 모바일 뷰포트 높이 설정 */
 	.min-h-screen-mobile {
 		min-height: 100vh;
 		min-height: calc(var(--vh, 1vh) * 100);
 	}
 
-	/* 기본 애니메이션 */
 	@keyframes fade-in {
 		from {
 			opacity: 0;
@@ -478,7 +738,6 @@
 		animation: fade-in 1.2s ease-out;
 	}
 
-	/* 떠다니는 고양이 발자국 */
 	.floating-paws {
 		position: absolute;
 		top: 0;
@@ -551,7 +810,6 @@
 		}
 	}
 
-	/* JinPyo Joo 제목 애니메이션 */
 	.cat-title {
 		position: relative;
 		z-index: 5;
@@ -607,8 +865,6 @@
 		}
 	}
 
-	/* 고양이 눈 */
-
 	@keyframes blink {
 		0%,
 		90%,
@@ -620,12 +876,10 @@
 		}
 	}
 
-	/* 소셜 링크 호버 효과 */
 	.social-link:hover {
 		filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 	}
 
-	/* 고양이 꼬리 스크롤 인디케이터 */
 	.cat-tail-indicator {
 		position: relative;
 		display: flex;
@@ -656,7 +910,6 @@
 		}
 	}
 
-	/* 프로젝트 섹션 애니메이션 */
 	.project-item {
 		opacity: 0;
 		transform: translateY(30px);
@@ -689,7 +942,6 @@
 		transform: rotate(15deg);
 	}
 
-	/* 프로젝트 태그 애니메이션 */
 	.project-tag {
 		transition: all 0.3s ease;
 	}
@@ -720,7 +972,6 @@
 		transform: translateY(-2px);
 	}
 
-	/* 고양이 상자 효과 */
 	.project-box {
 		position: relative;
 		overflow: hidden;
@@ -781,7 +1032,6 @@
 		transform: rotate(-20deg);
 	}
 
-	/* 연락처 섹션 애니메이션 */
 	.contact-item {
 		transition: all 0.3s ease;
 	}
@@ -808,7 +1058,6 @@
 		transform: translateX(5px);
 	}
 
-	/* 제목들 애니메이션 */
 	.project-title,
 	.contact-title,
 	.tech-title {
@@ -822,9 +1071,31 @@
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 	}
 
-	/* 푸터 고양이 이모지 */
 	.footer-text {
 		position: relative;
+	}
+
+	.language-switcher {
+		position: relative;
+		z-index: 10;
+	}
+
+	.lang-btn {
+		padding: 4px 8px;
+		border: 1px solid transparent;
+		border-radius: 4px;
+		cursor: pointer;
+		background: transparent;
+	}
+
+	.lang-btn:hover {
+		background: rgba(0, 0, 0, 0.1);
+	}
+
+	.lang-btn.active {
+		border-color: #333;
+		background: rgba(0, 0, 0, 0.1);
+		font-weight: bold;
 	}
 
 	@keyframes catWave {
@@ -840,7 +1111,6 @@
 		}
 	}
 
-	/* 터치 디바이스 최적화 */
 	@media (hover: none) and (pointer: coarse) {
 		.group:hover .group-hover\:opacity-60 {
 			opacity: 1;
@@ -850,13 +1120,11 @@
 			background-color: white;
 		}
 
-		/* 터치 디바이스에서는 호버 애니메이션 비활성화 */
 		.title-bounce .letter {
 			animation: letterBounce 3s ease-in-out infinite;
 		}
 	}
 
-	/* 반응형 조정 */
 	@media (max-width: 768px) {
 		.floating-paws .paw {
 			font-size: 16px;

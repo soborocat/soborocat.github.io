@@ -1081,8 +1081,9 @@
 	}
 
 	.lang-btn {
+		margin-top: 20px;
 		padding: 4px 8px;
-		border: 1px solid transparent;
+		/* border: 1px solid transparent; */
 		border-radius: 4px;
 		cursor: pointer;
 		background: transparent;

@@ -16,7 +16,7 @@
 			tech: ['SVELTE', 'TAILWINDCSS', 'CI/CD'],
 			link: 'https://cat.fluffy.company',
 			status: '현재',
-			image: '/product_catff.png'
+			image: 'product_catff.png'
 		},
 		{
 			title: 'FURPIC (퍼픽)',
@@ -29,7 +29,7 @@
 				'Svelte 프레임워크와 NestJS 기반의 백엔드로 구축된 서브컬쳐 사진 공유 플랫폼으로 사진 촬영자와 피사체 간 정보를 연결해 공유할 수 있는 플랫폼입니다. 현재 900개 이상의 캐릭터 데이터와 하루 접속자 1K 이상의 유저풀을 보유하고 있습니다.',
 			tech: ['SVELTE', 'TYPESCRIPT', 'POSTGRESQL', 'TAILWINDCSS', 'FIGMA'],
 			status: '현재',
-			image: '/product_furpic.png'
+			image: 'product_furpic.png'
 		},
 		{
 			title: '마쵸봇',
@@ -42,7 +42,7 @@
 				'1분마다 주가가 변동하는 가상 주식게임을 즐길 수 있는 디스코드 기반 게임 챗봇입니다. 수천명 이상의 유저풀과 함께 경쟁하며 게임을 플레이할 수 있습니다.',
 			tech: ['TYPESCRIPT', 'DISCORDJS', 'CANVAS', 'CI/CD'],
 			status: '현재',
-			image: '/product_chatbot.png'
+			image: 'product_chatbot.png'
 		},
 		{
 			title: '캐릭터 사진 자동 분류 시스템',

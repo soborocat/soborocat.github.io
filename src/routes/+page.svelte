@@ -51,7 +51,7 @@
 		ko: {
 			title: 'JinPyo Joo',
 			subtitle:
-				'고양이와 심플한 디자인을 사랑하는 개발자입니다. 최적화와 디자인에 대해 공부하고 있습니다.',
+				'고양이와 심플한 디자인을 사랑하는 풀스택 웹 개발자입니다. 최적화와 디자인에 대해 공부하고 있습니다.',
 			projects: 'PROJECTS',
 			contact: 'CONTACT',
 			technologies: 'TECHNOLOGIES',
@@ -67,7 +67,7 @@
 		en: {
 			title: 'JinPyo Joo',
 			subtitle:
-				'A developer who loves cats and simple design. Currently studying optimization and design.',
+				'A full stack web developer who loves cats and simple design. Currently studying optimization and design.',
 			projects: 'PROJECTS',
 			contact: 'CONTACT',
 			technologies: 'TECHNOLOGIES',
@@ -83,7 +83,7 @@
 		ja: {
 			title: 'JinPyo Joo',
 			subtitle:
-				'猫とシンプルなデザインを愛する開発者です。最適化とデザインについて勉強しています。',
+				'猫を愛し、シンプルなデザインを好むフルスタック Web デベロッパー。現在、最適化とデザインを勉強しています。',
 			projects: 'PROJECTS',
 			contact: 'CONTACT',
 			technologies: 'TECHNOLOGIES',

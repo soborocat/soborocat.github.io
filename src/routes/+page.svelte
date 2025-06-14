@@ -3,56 +3,89 @@
 	import BrandGithub from '@tabler/icons-svelte/icons/brand-github';
 	import Mail from '@tabler/icons-svelte/icons/mail';
 	import BrandInstagram from '@tabler/icons-svelte/icons/brand-instagram';
-
+	import { IconLink } from '@tabler/icons-svelte';
 	const projects = [
 		{
-			title: 'Serverside RAW Image Editor (untitled)',
+			title: 'Cat.Fluffy.Company',
 			year: '2025',
-			category: 'DESKTOP APPLICATION',
-			role: 'PM / Fullstack Developer',
+			category: '웹 애플리케이션',
+			team: 'FluffyCompany',
+			role: '풀스택 개발자 / 디자이너',
 			description:
-				'Serverside RAW image editor with advanced features for professional photographers',
-			tech: ['PYTHON', 'PYQT', 'IMAGE PROCESSING', 'GPU ACCELERATION'],
-			status: 'PENDING'
+				'고양이가 되었다고 생각하면서 성격을 검사할 수 있는 간단한 성격 검사 사이트입니다.',
+			tech: ['SVELTE', 'TAILWINDCSS', 'CI/CD'],
+			link: 'https://cat.fluffy.company',
+			status: '현재',
+			image: '/product_catff.png'
 		},
 		{
-			title: 'IMAGE TAGGING TOOL FOR CHARACTER COSPLAY',
-			year: '2025',
-			category: 'MACHINE LEARNING',
-			role: 'Fullstack Developer / Data Engineer',
-			description:
-				'Python based image tagging tool for character cosplay that was used FSL (Few Shot Learning) model training with automated processing',
-			tech: ['PYTHON', 'PILLOW', 'SCIKIT-LEARN', 'OPTIMIZATION'],
-			status: 'PRESENT'
-		},
-		{
-			title: 'FURPIC',
+			title: 'FURPIC (퍼픽)',
+			team: 'FURPIC TEAM',
+			link: 'https://furpic.net',
 			year: '2024',
-			category: 'WEB APPLICATION',
-			role: 'FE Developer / Design / Branding',
+			category: '웹 애플리케이션',
+			role: '프론트엔드 개발자 / 디자이너 / 대외 담당 및 마케팅',
 			description:
-				'Svelte-based subculture-community site with smooth animations and optimized media handling that links authors with their works',
+				'Svelte 프레임워크와 NestJS 기반의 백엔드로 구축된 서브컬쳐 사진 공유 플랫폼으로 사진 촬영자와 피사체 간 정보를 연결해 공유할 수 있는 플랫폼입니다. 현재 900개 이상의 캐릭터 데이터와 하루 접속자 1K 이상의 유저풀을 보유하고 있습니다.',
 			tech: ['SVELTE', 'TYPESCRIPT', 'POSTGRESQL', 'TAILWINDCSS', 'FIGMA'],
-			status: 'PRESENT'
+			status: '현재',
+			image: '/product_furpic.png'
 		},
 		{
-			title: 'MACHOBOT (TEAM QBIT)',
+			title: '마쵸봇',
 			year: '2022',
-			category: 'CHATBOT',
-			role: 'PD / Fullstack Developer',
+			link: 'https://namu.wiki/w/마쵸봇',
+			team: '팀 큐빗 (FluffyCompany)',
+			category: '챗봇',
+			role: 'PD / 프로젝트 리더 / 백엔드 개발자',
 			description:
-				'The virtual stock game chatbot with real-time updates and interactive gameplay features integrated with Discord platform',
+				'1분마다 주가가 변동하는 가상 주식게임을 즐길 수 있는 디스코드 기반 게임 챗봇입니다. 수천명 이상의 유저풀과 함께 경쟁하며 게임을 플레이할 수 있습니다.',
 			tech: ['TYPESCRIPT', 'DISCORDJS', 'CANVAS', 'CI/CD'],
-			status: 'PRESENT'
+			status: '현재',
+			image: '/product_chatbot.png'
+		},
+		{
+			title: '캐릭터 사진 자동 분류 시스템',
+			year: '2025',
+			team: 'FURPIC TEAM',
+			category: '머신러닝',
+			role: '풀스택 개발자 / 데이터 엔지니어',
+			description:
+				'Few Shot Learning 기술을 사용하여 적은 이미지 데이터셋으로 특수한 사진 피사체를 보다 정확하게 구분하여 피사체의 정보를 확인할 수 있는 기술입니다.',
+			tech: ['PYTHON', 'PILLOW', 'SCIKIT-LEARN', 'OPTIMIZATION'],
+			status: '현재'
+		},
+		{
+			title: '중앙서버 기반 RAW 이미지 편집 소프트웨어',
+			year: '2025',
+			category: '데스크톱 소프트웨어',
+			role: '프로젝트 매니저 / 풀스택 개발자',
+			description:
+				'전문 사진사와 일반인 모두 사용 가능한 RAW 이미지 편집기로 서버에서 연산을 처리하여 어디서든지 빠른 속도와 가벼움을 보장하는 프로토콜 기반 보정 소프트웨어입니다.',
+			tech: ['PYTHON', 'PYQT', 'IMAGE PROCESSING', 'GPU ACCELERATION', 'RESTFUL API'],
+			status: '보류'
+		},
+		{
+			title: 'school-py',
+			year: '2021',
+			category: 'opensource',
+			description: '파이썬으로 만든 급식 및 학교 정보를 가져오는 모듈입니다.',
+			tech: ['PYTHON', 'CRAWLING'],
+			team: '개인 프로젝트',
+			status: '보존',
+			role: '개발자',
+			link: 'https://github.com/soborocat/school-py'
 		},
 		{
 			title: 'Yak Project',
+			team: '교육 관련 팀 프로젝트',
 			year: '2019',
-			category: 'MACHINE LEARNING',
+			link: 'https://github.com/soborocat/Yakproject',
+			category: '웹 애플리케이션',
 			role: 'Fullstack Developer',
-			description: 'Medicine classification with crawling websites',
+			description: '약학정보원 웹사이트를 크롤링하여 알약 정보를 식별하는 프로젝트입니다.',
 			tech: ['PHP', 'CRAWLING'],
-			status: 'FINISHED'
+			status: '보존'
 		}
 	];
 
@@ -97,7 +130,7 @@
 </script>
 
 <svelte:head>
-	<title>Soboro - Web Developer</title>
+	<title>JinPyo Joo - Web Developer</title>
 	<meta
 		name="description"
 		content="Web Developer creating responsive and accessible applications"
@@ -123,22 +156,24 @@
 
 	<div class="min-h-screen-mobile flex items-center justify-center px-4">
 		<div class="animate-fade-in relative text-center">
-			<!-- SoBoRo 제목 with 고양이 같은 애니메이션 -->
+			<!-- JinPyo Joo 제목 with 고양이 같은 애니메이션 -->
 			<h1
 				bind:this={titleElement}
 				class="cat-title mb-6 text-4xl font-black tracking-tight text-black md:mb-8 md:text-6xl lg:text-8xl"
 				class:title-bounce={isVisible}
 				style="--mouse-x: {mouseX}px; --mouse-y: {mouseY}px;"
 			>
-				<span class="letter letter-s">S</span><span class="letter letter-o">o</span><span
-					class="letter letter-b">B</span
-				><span class="letter letter-o2">o</span><span class="letter letter-r">R</span><span
-					class="letter letter-o3">o</span
-				>
+				<span class="letter letter-j">J</span><span class="letter letter-i">i</span><span
+					class="letter letter-n">n</span
+				><span class="letter letter-p">P</span><span class="letter letter-y">y</span><span
+					class="letter letter-o">o</span
+				><span class="letter letter-space"> </span><span class="letter letter-j2">J</span><span
+					class="letter letter-o2">o</span
+				><span class="letter letter-o3">o</span>
 			</h1>
 
 			<p class="mb-8 px-4 text-lg font-medium tracking-wide text-black md:mb-12 md:text-xl">
-				CREATING RESPONSIVE & ACCESSIBLE APPLICATIONS
+				고양이와 심플한 디자인을 사랑하는 개발자입니다. 최적화와 디자인에 대해 공부하고 있습니다.
 			</p>
 
 			<!-- 소셜 링크 with 고양이 호버 효과 -->
@@ -217,6 +252,9 @@
 						<!-- 프로젝트 정보 -->
 						<div class="md:col-span-6">
 							<div class="mb-2 flex flex-wrap gap-2 md:gap-4">
+								<span class="project-tag text-xs font-black tracking-wide text-black md:text-sm"
+									>{project.team || 'Solo Project'}</span
+								>
 								<span class="project-tag text-xs font-medium tracking-wide text-black md:text-sm"
 									>{project.category}</span
 								>
@@ -230,7 +268,22 @@
 							<h3
 								class="mb-2 text-xl font-black tracking-tight text-black transition-all duration-300 group-hover:scale-105 group-hover:opacity-60 md:text-2xl lg:text-3xl"
 							>
-								{project.title}
+								{#if project.link}
+									<a
+										href={project.link}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="border-b-1 transition hover:border-b-2"
+									>
+										{project.title}
+									</a>
+									<IconLink
+										size={16}
+										class="ml-1 inline-block transition-transform duration-300 group-hover:scale-125"
+									/>
+								{:else}
+									{project.title}
+								{/if}
 							</h3>
 							<!-- 직무 정보 -->
 							<div
@@ -257,22 +310,31 @@
 							<div
 								class="project-box aspect-[4/3] border border-black bg-white transition-all duration-300 group-hover:bg-gray-50 group-hover:shadow-lg"
 							>
-								<div class="flex h-full w-full items-center justify-center">
-									<div class="cat-in-box text-center">
-										<div
-											class="cat-placeholder mx-auto mb-4 h-12 w-12 border-2 border-black md:h-16 md:w-16"
-										>
-											<div class="cat-face">
-												<div class="cat-whiskers">
-													<div class="whisker whisker-1"></div>
-													<div class="whisker whisker-2"></div>
-													<div class="whisker whisker-3"></div>
-													<div class="whisker whisker-4"></div>
+								{#if project.image}
+									<img
+										src={project.image}
+										alt={project.title}
+										class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+										loading="lazy"
+									/>
+								{:else}
+									<div class="flex h-full w-full items-center justify-center">
+										<div class="cat-in-box text-center">
+											<div
+												class="cat-placeholder mx-auto mb-4 h-12 w-12 border-2 border-black md:h-16 md:w-16"
+											>
+												<div class="cat-face">
+													<div class="cat-whiskers">
+														<div class="whisker whisker-1"></div>
+														<div class="whisker whisker-2"></div>
+														<div class="whisker whisker-3"></div>
+														<div class="whisker whisker-4"></div>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+								{/if}
 							</div>
 						</div>
 					</div>
@@ -314,7 +376,7 @@
 								rel="noopener noreferrer"
 								class="text-lg font-medium text-black transition-all duration-300 hover:scale-105 hover:opacity-60 md:text-xl"
 							>
-								SOBOROCAT
+								@soborocat
 							</a>
 						</div>
 						<div class="contact-item">
@@ -376,8 +438,7 @@
 		<div class="mt-16 h-0.5 w-full bg-black md:mt-24"></div>
 		<div class="mt-6 text-center md:mt-8">
 			<div class="footer-text text-xs font-medium text-black md:text-sm">
-				Copyright 2025. SoBoRo. Design by SoBoRo
-				<span class="cat-emoji">🐱</span>
+				Copyright 2025. JinpyoJoo. Designed by JinPyoJoo in Daejeon, South Korea.
 			</div>
 		</div>
 	</section>
@@ -491,7 +552,7 @@
 		}
 	}
 
-	/* SoBoRo 제목 애니메이션 */
+	/* JinPyo Joo 제목 애니메이션 */
 	.cat-title {
 		position: relative;
 		z-index: 5;
@@ -506,23 +567,35 @@
 		animation: letterBounce 2s ease-in-out infinite;
 	}
 
-	.title-bounce .letter-s {
+	.title-bounce .letter-j {
 		animation-delay: 0s;
 	}
-	.title-bounce .letter-o {
+	.title-bounce .letter-i {
 		animation-delay: 0.1s;
 	}
-	.title-bounce .letter-b {
+	.title-bounce .letter-n {
 		animation-delay: 0.2s;
 	}
-	.title-bounce .letter-o2 {
+	.title-bounce .letter-p {
 		animation-delay: 0.3s;
 	}
-	.title-bounce .letter-r {
+	.title-bounce .letter-y {
 		animation-delay: 0.4s;
 	}
-	.title-bounce .letter-o3 {
+	.title-bounce .letter-o {
 		animation-delay: 0.5s;
+	}
+	.title-bounce .letter-space {
+		animation-delay: 0.6s;
+	}
+	.title-bounce .letter-j2 {
+		animation-delay: 0.7s;
+	}
+	.title-bounce .letter-o2 {
+		animation-delay: 0.8s;
+	}
+	.title-bounce .letter-o3 {
+		animation-delay: 0.9s;
 	}
 
 	@keyframes letterBounce {
@@ -753,12 +826,6 @@
 	/* 푸터 고양이 이모지 */
 	.footer-text {
 		position: relative;
-	}
-
-	.cat-emoji {
-		display: inline-block;
-		margin-left: 8px;
-		animation: catWave 2s ease-in-out infinite;
 	}
 
 	@keyframes catWave {
